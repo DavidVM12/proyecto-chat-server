@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<listaUsuarios>
+
+    <usuario>
+
+        <nombre>Andres</nombre>
+        <ip>181.141.132.8</ip>
+        <id>1</id>
+        <estado>true</estado>
+        <contrasenia>123</contrasenia>
+
+    </usuario>
+
+    <usuario>
+
+        <nombre>David</nombre>
+        <ip>182.141.132.8</ip>
+        <id>2</id>
+        <estado>true</estado>
+        <contrasenia>123</contrasenia>
+
+    </usuario>
+
+</listaUsuarios>

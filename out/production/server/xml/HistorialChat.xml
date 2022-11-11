@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<historialChats>
+
+    <chat>
+
+        <emisor></emisor>
+        <contenido></contenido>
+        <receptor></receptor>
+        <fechaHora></fechaHora>
+        <estado></estado>
+
+    </chat>
+
+</historialChats>
