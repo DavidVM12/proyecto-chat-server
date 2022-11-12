@@ -19,59 +19,25 @@ public class ManejoArchivos {
     static ArrayList<Cliente> usuariosArray = new ArrayList<>();
     static File xmlChat = new File("src/xml/HistorialChat.xml");
 
-    public static void crearArchivos(String nombreArchivo){
+//    Generar el archivo xml correctamente
+    static DocumentBuilderFactory factory;
+    static DocumentBuilder builder;
+    static Document doc;
+    static Element rootElement;
 
-        File archivo = new File(nombreArchivo);
-        try (PrintWriter salida = new PrintWriter(archivo)) {
-            salida.close();
-            System.out.println("Se creo el archivo");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace(System.out);
-        }
+//    Constructor para inicializar una primera instancia de las etiquetas del xml
+    public ManejoArchivos() throws ParserConfigurationException, IOException, SAXException {
+        factory = DocumentBuilderFactory.newInstance();
+        builder = factory.newDocumentBuilder();
+        doc = builder.newDocument();
 
-    }
-    
-    public static void leerArchivo(String nombreArchivo) {
-
-        File archivo = new File(nombreArchivo);
-        try (BufferedReader entrada = new BufferedReader(new FileReader(archivo))) {
-        	String lectura = entrada.readLine();
-        	while(lectura != null) {
-        		System.out.println(lectura);
-        		lectura = entrada.readLine();
-        	}
-        	entrada.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace(System.out);
-        } catch (IOException e) {
-            e.printStackTrace(System.out);
-        }
-
+        rootElement = doc.createElement("historialChats");
+        doc.appendChild(rootElement);
     }
 
-    public static void escribirArchivo(String nombreArchivo, String texto) {
-
-        File archivo = new File(nombreArchivo);
-        try (PrintWriter salida = new PrintWriter(new FileWriter(archivo, true))) {
-        	salida.println(texto);
-            salida.close();
-            System.out.println("Se escribio el archivo");
-        } catch (IOException e) {
-            e.printStackTrace(System.out);
-        }
-
-    }
-
-    public static void escribirXml(String contenidoChat, String receptorChat, String fechaHoraChat, String estadoChat){
+    public void escribirXml(String contenidoChat, String receptorChat, String fechaHoraChat, String estadoChat){
 
         try {
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new File("src/xml/HistorialChat.xml"));
-
-            Element rootElement = doc.createElement("historialChats");
-            doc.appendChild(rootElement);
 
             //Chat
             Element chat = doc.createElement("chat");
@@ -97,7 +63,7 @@ public class ManejoArchivos {
             StreamResult result = new StreamResult(xmlChat);
             transformer.transform(source, result);
 
-        } catch (ParserConfigurationException | TransformerException | IOException | SAXException pce) {
+        } catch (TransformerException pce) {
             pce.printStackTrace();
         }
 
@@ -153,4 +119,5 @@ public class ManejoArchivos {
     public static ArrayList<Cliente> getUsuariosArray() {
         return usuariosArray;
     }
+
 }

@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><historialChats>
-
-</historialChats><historialChats><chat><contenido>ads</contenido><receptor>12</receptor><fechaHora> 2022-11-12T12:24:20.197327600</fechaHora><estado>true</estado></chat></historialChats>
+</historialChats>
+<historialChats>
+<chat>
+    <contenido>sad</contenido>
+    <receptor>4</receptor>
+    <fechaHora> 2022-11-12T13:03:27.448709500</fechaHora>
+    <estado>true</estado>
+</chat>
+<chat><contenido>sd</contenido><receptor>43</receptor><fechaHora> 2022-11-12T13:03:27.448709500</fechaHora><estado>true</estado></chat></historialChats>

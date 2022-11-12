@@ -1,7 +1,9 @@
 package chat;
 
+import org.xml.sax.SAXException;
 import persistencia.ManejoArchivos;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -45,6 +47,7 @@ public class HiloCliente implements Runnable{
 
         try {
 
+            ManejoArchivos mj = new ManejoArchivos();
             output = new ObjectOutputStream(conexion.getOutputStream());
             input  = new ObjectInputStream(conexion.getInputStream());
 
@@ -60,12 +63,13 @@ public class HiloCliente implements Runnable{
 
                     case '@':
 //                        Login
+
                         break;
 
                     case '#':
 //                        Recibir mensaje
                         String[] parts = mensaje.split(";");
-                        ManejoArchivos.escribirXml(parts[1], parts[2], " " + fecha, "true");
+                        mj.escribirXml(parts[1], parts[2], " " + fecha, "true");
                         break;
 
                     case '$':
@@ -89,7 +93,7 @@ public class HiloCliente implements Runnable{
 //                input.close();
 
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
 
