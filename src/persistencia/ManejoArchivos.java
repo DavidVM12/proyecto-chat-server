@@ -1,20 +1,23 @@
 package persistencia;
-import cliente.Cliente;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import chat.Cliente;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
 
 public class ManejoArchivos {
 
     static ArrayList<Cliente> usuariosArray = new ArrayList<>();
+    static File xmlChat = new File("src/xml/HistorialChat.xml");
 
     public static void crearArchivos(String nombreArchivo){
 
@@ -53,10 +56,49 @@ public class ManejoArchivos {
         	salida.println(texto);
             salida.close();
             System.out.println("Se escribio el archivo");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace(System.out);
         } catch (IOException e) {
             e.printStackTrace(System.out);
+        }
+
+    }
+
+    public static void escribirXml(String contenidoChat, String receptorChat, String fechaHoraChat, String estadoChat){
+
+        try {
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(new File("src/xml/HistorialChat.xml"));
+
+            Element rootElement = doc.createElement("historialChats");
+            doc.appendChild(rootElement);
+
+            //Chat
+            Element chat = doc.createElement("chat");
+            rootElement.appendChild(chat);
+            Element contenido = doc.createElement("contenido");
+            contenido.setTextContent(contenidoChat);
+            chat.appendChild(contenido);
+            Element receptor = doc.createElement("receptor");
+            receptor.setTextContent(receptorChat);
+            chat.appendChild(receptor);
+            Element fechaHora = doc.createElement("fechaHora");
+            fechaHora.setTextContent(fechaHoraChat);
+            chat.appendChild(fechaHora);
+            Element estado = doc.createElement("estado");
+            estado.setTextContent(estadoChat);
+            chat.appendChild(estado);
+
+
+            //Se escribe el contenido del XML en un archivo
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(xmlChat);
+            transformer.transform(source, result);
+
+        } catch (ParserConfigurationException | TransformerException | IOException | SAXException pce) {
+            pce.printStackTrace();
         }
 
     }

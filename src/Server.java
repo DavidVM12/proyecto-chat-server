@@ -1,5 +1,5 @@
-import cliente.Cliente;
-import cliente.HiloCliente;
+import chat.Cliente;
+import chat.HiloCliente;
 import persistencia.ManejoArchivos;
 
 import java.io.IOException;

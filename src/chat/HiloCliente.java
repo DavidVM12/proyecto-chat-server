@@ -1,4 +1,4 @@
-package cliente;
+package chat;
 
 import persistencia.ManejoArchivos;
 
@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Arrays;
 
 public class HiloCliente implements Runnable{
 
@@ -35,6 +38,11 @@ public class HiloCliente implements Runnable{
         System.out.println(hilo.getName()+" iniciando.");
         usuarios = ManejoArchivos.leerXml();
 
+//        Obtener fecha
+        LocalDate hoy = LocalDate.now();
+        LocalTime ahora = LocalTime.now();
+        LocalDateTime fecha = LocalDateTime.of(hoy, ahora);
+
         try {
 
             output = new ObjectOutputStream(conexion.getOutputStream());
@@ -46,35 +54,39 @@ public class HiloCliente implements Runnable{
 
                 output.flush();
                 Object client = input.readObject();
-
                 mensaje = client.toString();
-                System.out.println(mensaje);
 
                 switch (mensaje.charAt(0)){
 
                     case '@':
-
-
+//                        Login
+                        break;
 
                     case '#':
+//                        Recibir mensaje
+                        String[] parts = mensaje.split(";");
+                        ManejoArchivos.escribirXml(parts[1], parts[2], " " + fecha, "true");
+                        break;
 
                     case '$':
+//                        Enviar usuarios
+                        output.writeObject(usuarios);
+                        break;
 
                     case '%':
+//                        Enviar historial de chats
+
+                        break;
 
                     case '*':
-
+//                        Parar
+                        mensaje = "stop";
+                        break;
 
                 }
 
-//                Devolver el mensaje
-                output.writeObject(mensaje);
-
-//                Continuar escuchando
-                System.out.println("Continuidad");
-
-//                aux.close();
-//                aux2.close();
+//                output.close();
+//                input.close();
 
             }
         } catch (IOException | ClassNotFoundException e) {

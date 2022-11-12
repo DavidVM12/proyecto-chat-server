@@ -1,14 +1,3 @@
-<?xml version="1.0"?>
-<historialChats>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><historialChats>
 
-    <chat>
-
-        <emisor></emisor>
-        <contenido></contenido>
-        <receptor></receptor>
-        <fechaHora></fechaHora>
-        <estado></estado>
-
-    </chat>
-
-</historialChats>
+</historialChats><historialChats><chat><contenido>ads</contenido><receptor>12</receptor><fechaHora> 2022-11-12T12:24:20.197327600</fechaHora><estado>true</estado></chat></historialChats>
