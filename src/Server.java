@@ -1,3 +1,4 @@
+import cliente.Cliente;
 import cliente.HiloCliente;
 import persistencia.ManejoArchivos;
 
@@ -9,12 +10,13 @@ import java.util.ArrayList;
 public class Server {
 
     static final int PUERTO = 5000;
-    static ArrayList<String> usuariosArray = new ArrayList<>();
+    static ArrayList<Cliente> usuariosArray = new ArrayList<>();
     static String usuarios;
 
     public static void main(String[] args) {
 
         usuarios = ManejoArchivos.leerXml();
+        usuariosArray = ManejoArchivos.getUsuariosArray();
         new Server();
 
     }

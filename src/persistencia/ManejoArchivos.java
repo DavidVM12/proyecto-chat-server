@@ -1,4 +1,5 @@
 package persistencia;
+import cliente.Cliente;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class ManejoArchivos {
 
-
+    static ArrayList<Cliente> usuariosArray = new ArrayList<>();
 
     public static void crearArchivos(String nombreArchivo){
 
@@ -63,6 +64,11 @@ public class ManejoArchivos {
     public static String leerXml(){
 
         String clientes = "$";
+        String nombre;
+        String ip;
+        String id;
+        String estado;
+        String contrasenia;
 
         try {
             File file = new File("src/xml/ListaUsuarios.xml");
@@ -74,13 +80,19 @@ public class ManejoArchivos {
             for (int temp = 0; temp < nList.getLength(); temp++) {
                 Node nNode = nList.item(temp);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
                     Element eElement = (Element) nNode;
-                    clientes +=  ":" + eElement.getElementsByTagName("nombre").item(0).getTextContent() +
-                                 ";" + eElement.getElementsByTagName("ip").item(0).getTextContent() +
-                                 ";" + eElement.getElementsByTagName("id").item(0).getTextContent() +
-                                 ";" + eElement.getElementsByTagName("ip").item(0).getTextContent() +
-                                 ";" + eElement.getElementsByTagName("estado").item(0).getTextContent() +
-                                 ";" + eElement.getElementsByTagName("contrasenia").item(0).getTextContent();
+
+                    nombre = eElement.getElementsByTagName("nombre").item(0).getTextContent();
+                    ip = eElement.getElementsByTagName("ip").item(0).getTextContent();
+                    id = eElement.getElementsByTagName("id").item(0).getTextContent();
+                    estado = eElement.getElementsByTagName("estado").item(0).getTextContent();
+                    contrasenia = eElement.getElementsByTagName("contrasenia").item(0).getTextContent();
+
+                    clientes +=  ":" + nombre + ";" + ip + ";" + id + ";" + estado + ";" + contrasenia;
+
+                    usuariosArray.add(new Cliente(nombre, ip, id, estado, contrasenia));
+
                 }
             }
         }
@@ -95,5 +107,8 @@ public class ManejoArchivos {
         return clientes;
 
     }
-    
+
+    public static ArrayList<Cliente> getUsuariosArray() {
+        return usuariosArray;
+    }
 }

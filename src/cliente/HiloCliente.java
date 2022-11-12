@@ -1,9 +1,12 @@
 package cliente;
 
+import persistencia.ManejoArchivos;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class HiloCliente implements Runnable{
 
@@ -11,6 +14,7 @@ public class HiloCliente implements Runnable{
     Socket conexion;
     ObjectOutputStream output;
     ObjectInputStream input;
+    static String usuarios;
 
     //Construye un nuevo hilo.
     HiloCliente(String nombre, Socket conexionServer){
@@ -29,6 +33,7 @@ public class HiloCliente implements Runnable{
     public void run(){
 
         System.out.println(hilo.getName()+" iniciando.");
+        usuarios = ManejoArchivos.leerXml();
 
         try {
 
@@ -37,13 +42,31 @@ public class HiloCliente implements Runnable{
 
             String mensaje = "";
 
-            while (!mensaje.equals("cerrar")) {
+            while (!mensaje.equals("stop")) {
 
                 output.flush();
                 Object client = input.readObject();
 
                 mensaje = client.toString();
                 System.out.println(mensaje);
+
+                switch (mensaje.charAt(0)){
+
+                    case '@':
+
+
+
+                    case '#':
+
+                    case '$':
+
+                    case '%':
+
+                    case '*':
+
+
+                }
+
 //                Devolver el mensaje
                 output.writeObject(mensaje);
 
