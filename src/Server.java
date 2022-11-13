@@ -1,22 +1,18 @@
-import chat.Cliente;
 import chat.HiloCliente;
 import persistencia.ManejoArchivos;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class Server {
 
     static final int PUERTO = 5000;
-    static ArrayList<Cliente> usuariosArray = new ArrayList<>();
     static String usuarios;
 
     public static void main(String[] args) {
 
-        usuarios = ManejoArchivos.leerXml();
-        usuariosArray = ManejoArchivos.getUsuariosArray();
+        usuarios = ManejoArchivos.leerXmlUsuarios();
         new Server();
 
     }

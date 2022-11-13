@@ -1,5 +1,5 @@
 package persistencia;
-import chat.Cliente;
+import chat.Usuario;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ManejoArchivos {
 
-    static ArrayList<Cliente> usuariosArray = new ArrayList<>();
+    static ArrayList<Usuario> usuariosArray = new ArrayList<>();
     static File xmlChat = new File("src/xml/HistorialChat.xml");
 
 //    Generar el archivo xml correctamente
@@ -30,7 +30,6 @@ public class ManejoArchivos {
         factory = DocumentBuilderFactory.newInstance();
         builder = factory.newDocumentBuilder();
         doc = builder.newDocument();
-
         rootElement = doc.createElement("historialChats");
         doc.appendChild(rootElement);
     }
@@ -69,7 +68,49 @@ public class ManejoArchivos {
 
     }
 
-    public static String leerXml(){
+    public static String leerXmlChats(){
+
+        String chat = "%";
+        String contenido;
+        String receptor;
+        String fechaHora;
+        String estado;
+
+        try {
+            File file = new File("src/xml/HistorialChat.xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document document = db.parse(file);
+            document.getDocumentElement().normalize();
+            NodeList nList = document.getElementsByTagName("chat");
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element eElement = (Element) nNode;
+
+                    contenido = eElement.getElementsByTagName("contenido").item(0).getTextContent();
+                    receptor = eElement.getElementsByTagName("receptor").item(0).getTextContent();
+                    fechaHora = eElement.getElementsByTagName("fechaHora").item(0).getTextContent();
+                    estado = eElement.getElementsByTagName("estado").item(0).getTextContent();
+
+                    chat +=  ":" + contenido + ";" + receptor + ";" + fechaHora + ";" + estado;
+
+                }
+            }
+        }
+        catch(IOException e) {
+            System.out.println(e);
+        } catch (ParserConfigurationException | SAXException e) {
+            e.printStackTrace();
+        }
+
+        return chat;
+
+    }
+
+
+    public static String leerXmlUsuarios(){
 
         String clientes = "$";
         String nombre;
@@ -99,8 +140,7 @@ public class ManejoArchivos {
 
                     clientes +=  ":" + nombre + ";" + ip + ";" + id + ";" + estado + ";" + contrasenia;
 
-                    usuariosArray.add(new Cliente(nombre, ip, id, estado, contrasenia));
-
+                    usuariosArray.add(new Usuario(nombre, ip, id, estado, contrasenia));
                 }
             }
         }
@@ -110,13 +150,11 @@ public class ManejoArchivos {
             e.printStackTrace();
         }
 
-        System.out.println(clientes);
-
         return clientes;
 
     }
 
-    public static ArrayList<Cliente> getUsuariosArray() {
+    public static ArrayList<Usuario> getUsuariosArray() {
         return usuariosArray;
     }
 

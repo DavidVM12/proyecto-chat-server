@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class HiloCliente implements Runnable{
 
@@ -20,11 +20,13 @@ public class HiloCliente implements Runnable{
     ObjectOutputStream output;
     ObjectInputStream input;
     static String usuarios;
+    static ArrayList<Usuario> usuariosArray;
 
     //Construye un nuevo hilo.
     HiloCliente(String nombre, Socket conexionServer){
         hilo= new Thread(this,nombre);
         this.conexion = conexionServer;
+        usuariosArray = ManejoArchivos.getUsuariosArray();
     }
 
     //Un método de fábrica que crea e inicia un hilo.
@@ -38,7 +40,7 @@ public class HiloCliente implements Runnable{
     public void run(){
 
         System.out.println(hilo.getName()+" iniciando.");
-        usuarios = ManejoArchivos.leerXml();
+        usuarios = ManejoArchivos.leerXmlUsuarios();
 
 //        Obtener fecha
         LocalDate hoy = LocalDate.now();
@@ -47,7 +49,7 @@ public class HiloCliente implements Runnable{
 
         try {
 
-            ManejoArchivos mj = new ManejoArchivos();
+            ManejoArchivos archivos = new ManejoArchivos();
             output = new ObjectOutputStream(conexion.getOutputStream());
             input  = new ObjectInputStream(conexion.getInputStream());
 
@@ -62,14 +64,20 @@ public class HiloCliente implements Runnable{
                 switch (mensaje.charAt(0)){
 
                     case '@':
+
 //                        Login
+                        if(estaRegistrado(mensaje)) {
+                            output.writeObject("true");
+                        } else {
+                            output.writeObject("false");
+                        }
 
                         break;
 
                     case '#':
 //                        Recibir mensaje
-                        String[] parts = mensaje.split(";");
-                        mj.escribirXml(parts[1], parts[2], " " + fecha, "true");
+                        String[] mensajeDividido = mensaje.split(";");
+                        archivos.escribirXml(mensajeDividido[1], mensajeDividido[2], " " + fecha, "true");
                         break;
 
                     case '$':
@@ -79,7 +87,7 @@ public class HiloCliente implements Runnable{
 
                     case '%':
 //                        Enviar historial de chats
-
+                        output.writeObject(ManejoArchivos.leerXmlChats());
                         break;
 
                     case '*':
@@ -98,6 +106,24 @@ public class HiloCliente implements Runnable{
         }
 
         System.out.println(hilo.getName()+" terminado.");
+    }
+
+    public boolean estaRegistrado(String mensaje){
+
+        boolean usuarioRegistrado = false;
+
+        String[] user = mensaje.split(";");
+        user[0] = user[0].replace("@", "");
+
+        for (Usuario c : usuariosArray){
+            if (user[0].equals(c.getNombre())){
+                if(user[1].equals(c.getContrasenia())){
+                    usuarioRegistrado = true;
+                }
+            }
+        }
+
+        return usuarioRegistrado;
     }
 
 }

@@ -1,6 +1,6 @@
 package chat;
 
-public class Cliente {
+public class Usuario {
 
     private String nombre;
     private String ip;
@@ -8,7 +8,7 @@ public class Cliente {
     private String estado;
     private String contrasenia;
 
-    public Cliente(String nombre, String ip, String id, String estado, String contrasenia) {
+    public Usuario(String nombre, String ip, String id, String estado, String contrasenia) {
         this.nombre = nombre;
         this.ip = ip;
         this.id = id;
