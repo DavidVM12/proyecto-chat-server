@@ -138,7 +138,7 @@ public class ManejoArchivos {
                     estado = eElement.getElementsByTagName("estado").item(0).getTextContent();
                     contrasenia = eElement.getElementsByTagName("contrasenia").item(0).getTextContent();
 
-                    clientes +=  ":" + nombre + ";" + ip + ";" + id + ";" + estado + ";" + contrasenia;
+                    clientes +=  ":" + nombre + ";" + ip + ";" + id + ";" + estado + ";" + contrasenia + ";";
 
                     usuariosArray.add(new Usuario(nombre, ip, id, estado, contrasenia));
                 }

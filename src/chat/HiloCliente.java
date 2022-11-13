@@ -67,9 +67,9 @@ public class HiloCliente implements Runnable{
 
 //                        Login
                         if(estaRegistrado(mensaje)) {
-                            output.writeObject("true");
+                            output.writeObject("@true");
                         } else {
-                            output.writeObject("false");
+                            output.writeObject("@false");
                         }
 
                         break;
