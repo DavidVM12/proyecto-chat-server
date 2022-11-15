@@ -17,8 +17,8 @@ public class HiloCliente implements Runnable{
 
     Thread hilo;
     Socket conexion;
-    ObjectOutputStream output;
-    ObjectInputStream input;
+    static ObjectOutputStream output;
+    static ObjectInputStream input;
     static String usuarios;
     static ArrayList<Usuario> usuariosArray;
 
@@ -67,6 +67,7 @@ public class HiloCliente implements Runnable{
 
 //                        Login
                         if(estaRegistrado(mensaje)) {
+                            hilo.setName(buscarId(mensaje));
                             output.writeObject("@true");
                         } else {
                             output.writeObject("@false");
@@ -124,6 +125,25 @@ public class HiloCliente implements Runnable{
         }
 
         return usuarioRegistrado;
+    }
+
+    public String buscarId(String mensaje){
+        String id = "";
+
+        boolean usuarioRegistrado = false;
+
+        String[] user = mensaje.split(";");
+        user[0] = user[0].replace("@", "");
+
+        for (Usuario c : usuariosArray){
+            if (user[0].equals(c.getNombre())){
+                if(user[1].equals(c.getContrasenia())){
+                    id = c.getId();
+                }
+            }
+        }
+
+        return id;
     }
 
 }

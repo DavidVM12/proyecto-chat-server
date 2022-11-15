@@ -4,14 +4,17 @@ import persistencia.ManejoArchivos;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
 
     static final int PUERTO = 5000;
     static String usuarios;
+    static ArrayList<HiloCliente> listaHilos;
 
     public static void main(String[] args) {
 
+        listaHilos = new ArrayList<>();
         usuarios = ManejoArchivos.leerXmlUsuarios();
         new Server();
 
@@ -27,7 +30,7 @@ public class Server {
 
             while(true){
                 Socket conexion = servidor.accept();
-                HiloCliente cliente = HiloCliente.crearYComenzar("hilo"+cont, conexion);
+                listaHilos.add(HiloCliente.crearYComenzar(""+cont, conexion));
                 cont++;
             }
 
