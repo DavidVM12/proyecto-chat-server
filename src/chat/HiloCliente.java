@@ -17,14 +17,15 @@ public class HiloCliente implements Runnable{
 
     Thread hilo;
     Socket conexion;
-    static ObjectOutputStream output;
-    static ObjectInputStream input;
+    ObjectOutputStream output;
+    ObjectInputStream input;
     static String usuarios;
     static ArrayList<Usuario> usuariosArray;
+    ArrayList<HiloCliente> listaHilos;
 
     //Construye un nuevo hilo.
     HiloCliente(String nombre, Socket conexionServer){
-        hilo= new Thread(this,nombre);
+        hilo = new Thread(this,nombre);
         this.conexion = conexionServer;
         usuariosArray = ManejoArchivos.getUsuariosArray();
     }
@@ -79,6 +80,13 @@ public class HiloCliente implements Runnable{
 //                        Recibir mensaje
                         String[] mensajeDividido = mensaje.split(";");
                         archivos.escribirXml(mensajeDividido[1], mensajeDividido[2], " " + fecha, "true");
+
+                        for (HiloCliente c : listaHilos){
+                            if(c.getHilo().getName().equals(mensajeDividido[2])){
+                                c.output.writeObject(mensaje);
+                            }
+                        }
+
                         break;
 
                     case '$':
@@ -88,7 +96,8 @@ public class HiloCliente implements Runnable{
 
                     case '%':
 //                        Enviar historial de chats
-                        output.writeObject(ManejoArchivos.leerXmlChats());
+                        mensaje = ManejoArchivos.leerXmlChats();
+                        output.writeObject(mensaje);
                         break;
 
                     case '*':
@@ -144,6 +153,14 @@ public class HiloCliente implements Runnable{
         }
 
         return id;
+    }
+
+    public void setListaHilos(ArrayList<HiloCliente> listaHilos) {
+        this.listaHilos = listaHilos;
+    }
+
+    public Thread getHilo() {
+        return hilo;
     }
 
 }

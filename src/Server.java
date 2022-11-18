@@ -30,12 +30,18 @@ public class Server {
 
             while(true){
                 Socket conexion = servidor.accept();
-                listaHilos.add(HiloCliente.crearYComenzar(""+cont, conexion));
+                listaHilos.add(HiloCliente.crearYComenzar("" + cont, conexion));
                 cont++;
+
+                for (HiloCliente c : listaHilos){
+                    c.setListaHilos(listaHilos);
+                }
+
             }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
      }
+
 }
