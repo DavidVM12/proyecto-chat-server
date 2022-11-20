@@ -70,7 +70,7 @@ public class ManejoArchivos {
 
     public static String leerXmlChats(){
 
-        String chat = "%";
+        String chat = "%" + ":";
         String contenido;
         String receptor;
         String fechaHora;
@@ -94,7 +94,7 @@ public class ManejoArchivos {
                     fechaHora = eElement.getElementsByTagName("fechaHora").item(0).getTextContent();
                     estado = eElement.getElementsByTagName("estado").item(0).getTextContent();
 
-                    chat +=  ":" + contenido + ";" + receptor + ";" + fechaHora + ";" + estado;
+                    chat += contenido + ";" + receptor + ";" + fechaHora + ";" + estado + ";";
 
                 }
             }

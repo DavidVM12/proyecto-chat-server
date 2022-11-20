@@ -29,6 +29,7 @@ public class Server {
             int cont = 0;
 
             while(true){
+
                 Socket conexion = servidor.accept();
                 listaHilos.add(HiloCliente.crearYComenzar("" + cont, conexion));
                 cont++;
