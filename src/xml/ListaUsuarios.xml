@@ -13,11 +13,22 @@
 
     <usuario>
 
-        <nombre>David</nombre>
+        <nombre>d</nombre>
         <ip>182.141.132.8</ip>
         <id>4</id>
         <estado>true</estado>
-        <contrasenia>123</contrasenia>
+        <contrasenia>2</contrasenia>
+
+    </usuario>
+
+
+    <usuario>
+
+        <nombre>m</nombre>
+        <ip>182.141.132.8</ip>
+        <id>5</id>
+        <estado>true</estado>
+        <contrasenia>3</contrasenia>
 
     </usuario>
 

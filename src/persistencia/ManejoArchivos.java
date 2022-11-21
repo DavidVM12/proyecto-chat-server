@@ -34,7 +34,7 @@ public class ManejoArchivos {
         doc.appendChild(rootElement);
     }
 
-    public void escribirXml(String contenidoChat, String receptorChat, String fechaHoraChat, String estadoChat){
+    public void escribirXml(String contenidoChat, String receptorChat, String fechaHoraChat, String estadoChat) {
 
         try {
 
@@ -68,7 +68,7 @@ public class ManejoArchivos {
 
     }
 
-    public static String leerXmlChats(){
+    public static String leerXmlChats() {
 
         String chat = "%" + ":";
         String contenido;
@@ -110,7 +110,7 @@ public class ManejoArchivos {
     }
 
 
-    public static String leerXmlUsuarios(){
+    public static String leerXmlUsuarios() {
 
         String clientes = "$";
         String nombre;

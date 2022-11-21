@@ -118,7 +118,7 @@ public class HiloCliente implements Runnable{
         System.out.println(hilo.getName()+" terminado.");
     }
 
-    public boolean estaRegistrado(String mensaje){
+    public boolean estaRegistrado(String mensaje) {
 
         boolean usuarioRegistrado = false;
 
@@ -136,10 +136,8 @@ public class HiloCliente implements Runnable{
         return usuarioRegistrado;
     }
 
-    public String buscarId(String mensaje){
+    public String buscarId(String mensaje) {
         String id = "";
-
-        boolean usuarioRegistrado = false;
 
         String[] user = mensaje.split(";");
         user[0] = user[0].replace("@", "");
